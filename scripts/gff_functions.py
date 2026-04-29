@@ -8,16 +8,21 @@
 
 #filename = "data/covid_genome/covid.fasta"
 # we rae 
+# we have the functions without defining then they will show the error so thats why putting the print statements
 
 def read_fasta(fasta_file):
     genome_sequence = ""
 
+# now we will open the fileby using the with open functions 
+# everytime I am writing i will do the sanity ckecks using the print statmenst
+# make. avariabel to store the genome sequence
     with open(fasta_file, "r") as file:
         lines = file.readlines()
 
-        for line in lines[1:]:   # skip header 
+        for line in lines[1:]:   # skip header # if line starts with the > like the first line : if line.startswith(">"):
             genome_sequence += line.strip()
-
+# How do we add sequence together += and strip the line using the strip function
+# search from the google always what function we needed to do that specific thing 
     return genome_sequence
 
 #read_gff: this will read and parse covid_genes.gff3. See here for an introduction to GFF files.
@@ -40,9 +45,23 @@ def read_gff(gff_file, genome_sequence):
                 continue
             
             # it means it creates the list of the genome
+            # i used the delimiter that is \ so thats why its in the bracket created a line 
+            # as long as line is the split so we can grab the pieces together 
+            ## we want the three parts of this file if I get a list if 3 is the start and 4 is the end 
+            #def read_gff(gff3_file):
+            #with open(gff3_file, "r") as g:
+            # create a csv reader object
+            #reader = csv.reader(g, delimiter='\t')
             cols = line.strip().split("\t")
 
-            # Columns 4 and 5 → start and end
+            # Columns 4 and 5 → start and end 
+            # call it as the attributes 
+            # indexing we will use the start and end coordinates we use the zero base numbering 
+            # in the python if the end coordinate is the 3 but for slicing 
+            # lets say first gff starts the file from 1 but python 0 
+            # in python = gff-1
+            # for teh end is like GFFe
+
             start = int(cols[3])
             end = int(cols[4])
 
@@ -56,6 +75,15 @@ def read_gff(gff_file, genome_sequence):
             features.append((seq_id, sequence))
 
     return features
+
+
+# read the file line by line 
+# for line in reader:
+# start = int(line[3]) - 1
+# end = int(line[4]) # we dont have to change the end cord because how pythin slices
+# features_seq = genome_sequence[start:end]
+# print (start end, len(features_seq), atts)
+# all this is to get the 
     
 #write_output: usethetheextractedsequenceandsequenceIDtoprinteachfeature(i.e., eachline
 #from the GFF3 file). Every sequence should be written out to the same file, covid_genes.fasta.
@@ -67,3 +95,5 @@ def write_output(features):
         for seq_id, sequence in features:
             outfile.write(f">{seq_id}\n")
             outfile.write(f"{sequence}\n")
+
+# biopython they have a function to read the fasta file replace with that the and use taht 
